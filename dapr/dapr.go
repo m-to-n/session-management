@@ -52,8 +52,8 @@ func (a *SessionActor) Type() string {
 
 func (a *SessionActor) SendMessage(ctx context.Context, message string) (string, error) {
 	// TODO - implement
-	log.Printf("SessionActor.SendMessage called: %s", message)
-	return fmt.Sprintf("You said: %s!", message), nil
+	log.Printf("SessionActor(%s).SendMessage called(actorId=%s): %s", a.Type(), a.ID(), message)
+	return fmt.Sprintf("[%s] You said: %s!", a.ID(), message), nil
 }
 
 func ActorFactory() actor.Server {
