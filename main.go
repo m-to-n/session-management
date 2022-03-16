@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	dapr_act_rt "github.com/dapr/go-sdk/actor/runtime"
 	dapr_common "github.com/dapr/go-sdk/service/common"
 	daprd "github.com/dapr/go-sdk/service/http"
 	"github.com/gorilla/mux"
@@ -46,6 +47,8 @@ func main() {
 		s = daprd.NewService(dapr.DAPR_APP_HTTP_ADDR)
 	} else /* with custom dapr config - not working for now */ {
 		s = daprd.NewServiceWithMux(dapr.DAPR_APP_HTTP_ADDR, mux)
+		// config is not exposed :(
+		dapr_act_rt.GetActorRuntimeInstance()
 	}
 
 	s.RegisterActorImplFactory(dapr.ActorFactory)
