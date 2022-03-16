@@ -1,0 +1,1 @@
+dapr run --app-id createActor --log-level debug go run main.go

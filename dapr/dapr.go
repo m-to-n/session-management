@@ -1,6 +1,7 @@
 package dapr
 
 import (
+	"context"
 	"fmt"
 	"github.com/dapr/go-sdk/actor"
 	dapr "github.com/dapr/go-sdk/client"
@@ -23,11 +24,11 @@ const SESSION_ACTOR_TYPE = "M2NSessionActor"
 
 type SessionActorClientStub struct {
 	ActorId     string
-	SendMessage func(message string) (string, error)
+	SendMessage func(context.Context, string) (string, error)
 }
 
-func NewSessionActorClientStub(actorId string) SessionActorClientStub {
-	return SessionActorClientStub{
+func NewSessionActorClientStub(actorId string) *SessionActorClientStub {
+	return &SessionActorClientStub{
 		ActorId: actorId,
 	}
 }
@@ -49,7 +50,7 @@ func (a *SessionActor) Type() string {
 	return SESSION_ACTOR_TYPE
 }
 
-func (a *SessionActor) SendMessage(message string) (string, error) {
+func (a *SessionActor) SendMessage(ctx context.Context, message string) (string, error) {
 	// TODO - implement
 	log.Printf("SessionActor.SendMessage called: %s", message)
 	return fmt.Sprintf("You said: %s!", message), nil
