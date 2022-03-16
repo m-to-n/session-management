@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/dapr/go-sdk/actor"
 	dapr "github.com/dapr/go-sdk/client"
+	"github.com/teris-io/shortid"
 	"log"
 )
 
@@ -44,6 +45,7 @@ func (a *SessionActorClientStub) ID() string {
 type SessionActor struct {
 	actor.ServerImplBase
 	daprClient dapr.Client
+	ShortId    string
 }
 
 func (a *SessionActor) Type() string {
@@ -52,8 +54,8 @@ func (a *SessionActor) Type() string {
 
 func (a *SessionActor) SendMessage(ctx context.Context, message string) (string, error) {
 	// TODO - implement
-	log.Printf("SessionActor(%s).SendMessage called(actorId=%s): %s", a.Type(), a.ID(), message)
-	return fmt.Sprintf("[%s] You said: %s!", a.ID(), message), nil
+	log.Printf("SessionActor(%s).SendMessage called(actorId=%s - %s): %s", a.Type(), a.ID(), a.ShortId, message)
+	return fmt.Sprintf("[%s] [%s] You said: %s!", a.ID(), a.ShortId, message), nil
 }
 
 func ActorFactory() actor.Server {
@@ -61,7 +63,9 @@ func ActorFactory() actor.Server {
 	if err != nil {
 		panic(err)
 	}
+	sid, _ := shortid.Generate()
 	return &SessionActor{
 		daprClient: client,
+		ShortId:    sid,
 	}
 }

@@ -21,6 +21,8 @@ func main() {
 
 	actor1 := sm_dapr.NewSessionActorClientStub("id123")
 	actor2 := sm_dapr.NewSessionActorClientStub("id456")
+	// actor3 has same actorId -> new server actor won't be created!
+	// instead, actor2 will be reused!
 	actor3 := sm_dapr.NewSessionActorClientStub("id456")
 	client.ImplActorClientStub(actor1)
 	client.ImplActorClientStub(actor2)
