@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	dapr "github.com/dapr/go-sdk/client"
-	sm_dapr "github.com/m-to-n/session-management/dapr"
+	"github.com/m-to-n/common/sessions"
 	"log"
 )
 
@@ -19,11 +19,11 @@ func main() {
 	}
 	defer client.Close()
 
-	actor1 := sm_dapr.NewSessionActorClientStub("id123")
-	actor2 := sm_dapr.NewSessionActorClientStub("id456")
+	actor1 := sessions.NewSessionActorClientStub("id123")
+	actor2 := sessions.NewSessionActorClientStub("id456")
 	// actor3 has same actorId -> new server actor won't be created!
 	// instead, actor2 will be reused!
-	actor3 := sm_dapr.NewSessionActorClientStub("id456")
+	actor3 := sessions.NewSessionActorClientStub("id456")
 	client.ImplActorClientStub(actor1)
 	client.ImplActorClientStub(actor2)
 	client.ImplActorClientStub(actor3)
